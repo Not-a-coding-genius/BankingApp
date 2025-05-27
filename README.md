@@ -14,7 +14,7 @@ BEGIN
       );
 END
 ```
-3. *add_beneficiary*
+2. *add_beneficiary*
 ```sql
    BEGIN
     DECLARE nominee_count INT;
