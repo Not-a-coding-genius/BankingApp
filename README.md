@@ -1,5 +1,6 @@
 **PROCEDURES** 
 1. *MarkInactiveAccountsBasedOnTransactions*
+```sql
 BEGIN
     UPDATE accounts a
     SET a.status = 'INACTIVE'
@@ -12,9 +13,9 @@ BEGIN
             AND t.transaction_status = 'COMPLETED'
       );
 END
-
-2. *add_beneficiary*
-
+```
+3. *add_beneficiary*
+```sql
    BEGIN
     DECLARE nominee_count INT;
     DECLARE account_exists INT;
@@ -61,9 +62,9 @@ END
     VALUES (p_account_id, p_name, p_relationship, p_age);
 
 END
-
+```
 3. *block_accounts_on_high_activity*
-
+ ```sql
 BEGIN
     DECLARE threshold INT DEFAULT 10;
     DECLARE interval_hours INT DEFAULT 1;
@@ -78,11 +79,14 @@ BEGIN
             AND t.completed_at >= NOW() - INTERVAL interval_hours HOUR
       ) > threshold;
 END
-
+```
 **EVENTS** 
 
 1. *block_high_activity_accounts_event* (RECURRING EXECUTE ONCE EVERY HOUR)
+```sql
 CALL block_accounts_on_high_activity()
-
-2. *daily_inactive_accounts_update* (RECURRING EXECUTE ONCE EVERY DAY)
+```
+3. *daily_inactive_accounts_update* (RECURRING EXECUTE ONCE EVERY DAY)
+```sql
 CALL MarkInactiveAccountsBasedOnTransactions()
+```
